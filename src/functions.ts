@@ -1,12 +1,20 @@
 
 /**
+ * Untyped parameters are inferred as any (error in strict mode).
+ */
+// function add(a, b) {
+//     return a + b
+// }
+
+/**
  * Function with return type inference.
  * 
  * @param n the number
  * @returns the square
  */
 function squareOf(n: number) {
-    return n * n
+    return n * n; // inferred as number
+    // return n * n + ""; // inferred as string
 }
 
 /**
@@ -21,25 +29,6 @@ function squareOf2(n: number): number {
 
 console.log(squareOf(10));
 console.log(squareOf2(10));
-
-/**
- * Functions are first-class citizens, so an anonymous
- * function can be stored in a variable.
- * 
- * @param n the number
- * @returns the square
- */
-const square3 = function (n: number) {
-    return n * n;
-}
-
-/**
- * Lambdas can act as concise syntax for functions. 
- * 
- * @param n the number
- * @returns the square
- */
-const square4 = (n : number) => n * n
 
 /**
  * Every function has a function-type, that can be infered
@@ -59,14 +48,30 @@ add = sum // success
 console.log(add(10, 20))
 
 /**
+ * Type alias for a function-type
+ */
+type Add = (a: number, b: number) => number
+
+let addx: Add
+addx = sum // success
+// addx = concat // error
+
+// equivalent to full explicit typing (verbose)
+let addy: (a: number, b: number) => number = (a: number, b: number): number => a + b;
+
+console.log(addy(10, 20));
+
+/**
  * Parameters can be optional if the corresponding variable 
- * is nullable.
+ * is undefined.
+ * This is not overloading
  * 
  * @param x the first number
  * @param y the second number
  * @param z the third number
  */
 const add2 = function (x: number, y: number, z?: number): number {
+    console.log(z);
     return x + y + (z ? z : 0)
 }
 
@@ -85,18 +90,21 @@ const add3 = function (x: number, y: number, z: number = 0): number {
     return x + y + z
 }
 
-const add4 = function (x: number, y: number, ...otherNumbers: number[]): number {
-    function sum(array: number[]): number {
-        let s = 0;
+/**
+ * Function overloading
+ * Define a series of overloaded signatures and a single implementation signature.
+ */
+// Overload signatures
+function add4(a: number, b: number): number;
+function add4(a: string, b: string): string;
+function add4(a: number, b: string): string;
+function add4(a: string, b: number): string;
 
-        for (const n of array) {
-            s += n;
-        }
-
-        return s;
-    }
-
-    return x + y + sum(otherNumbers);
+// Implementation signature
+function add4(a: any, b: any): any {
+  if (typeof a === "number" && typeof b === "number") {
+    return a + b;
+  } else {
+    return String(a) + String(b);
+  }
 }
-
-console.log(add4(10, 20, 30, 40, 1, 2, 3, 4));

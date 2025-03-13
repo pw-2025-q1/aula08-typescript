@@ -20,6 +20,8 @@ function processValue(value: unknown): void {
       // We don't know the type of value, so we handle it accordingly
       console.log("Unsupported value type");
     }
+
+    // return value + 1; // Error
   }
   
   processValue(1); // Output: 2

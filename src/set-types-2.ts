@@ -31,8 +31,6 @@ interface AlunoPos extends Aluno {
  */
 type AlunoTrilha = AlunoGrad & AlunoPos
 type AlunoGeral = AlunoGrad | AlunoPos
-type ParticipanteDiscGrad = Professor | AlunoGrad
-type ParticipanteDiscPos = Professor | AlunoPos
 
 let a1: AlunoTrilha = {
     nome: 'joao', 

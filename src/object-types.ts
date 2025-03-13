@@ -21,5 +21,12 @@ o3 = {name: 'Mary'}
 o3 = {name: 'Mary', age: 30}
 // o3 = {name: 'Mary', age: 30, city: 'São Paulo'} \\ Error
 
+// immutable properties
+let o4: {readonly p1: number, p2: string};
+
+o4 = {p1: 12, p2: 'hello'};
+o4.p2 = 'world';
+// o4.p1 = 13; // Error
+
 
 export {}
